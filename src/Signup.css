@@ -1,0 +1,37 @@
+.form-element {
+    margin: 20px 5px;
+    font-size: large;
+}
+
+form {
+    width: 100%;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+label,input {
+
+    display: inline-block;
+
+}
+
+label {
+    width: 40%;
+    text-align: left;
+}
+
+label+input {
+    width: 50%;
+    margin: 0 30% 0 0;
+    
+}
+#already{
+    width: 60%;
+
+}
+
+
+
+
