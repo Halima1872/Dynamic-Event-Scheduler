@@ -11,7 +11,7 @@ export default function Login() {
         if (user) {
             alert('Login successful');
             navigateTo('/Welcome');
-            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('CurrentUser', name);
             localStorage.setItem('isLoggedIn', true);
         }
         else {
