@@ -1,37 +1,97 @@
 import './Welcome.css'
+import { useState } from "react";
 export default function Welcome() {
-    
-        function daysInCurrentMonth() {
-            var now = new Date();
-            return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-         }
-         
-         let a = daysInCurrentMonth();
-         const currMonth = new Date().toLocaleString([], {
-            month: 'long',
-          });
-         
-         const renderTD = () => {
-           let td = [];
-           for (let i = 1; i <= a; i++) {
-             td.push(<td key={i}>{i} </td>);
-             if (i % 7 === 0) {
-               td.push(<tr key={i}></tr>);
-             }
-           }
-           return td;
-         };
-         
-         return (
-           <div>
-            <h1>Welcome, {localStorage.getItem('CurrentUser')}</h1>
-            <h2>Calendar for Month: {currMonth} </h2>
-             <table>
-               <tbody>
-                 <tr>{renderTD()}</tr>
-               </tbody>
-             </table>
-           </div>
-         );
-        
+    const [selectedDate, setSelectedDate] = useState(new Date());
+
+    const getDaysOfWeek = () => {
+        return ["S", "M", "T", "W", "Th", "F", "S"];
+    }
+
+    const getDaysInMonth = (year, month) => {
+        return new Date(year, month + 1, 0).getDate();
+    }
+    const getFirstDayOfMonth = (year, month) => {
+        return new Date(year, month, 1).getDay();
+    }
+
+    const generateCalendarGrid = (year, month) => {
+        const totalDaysInMonth = getDaysInMonth(year, month);
+        const firstDayOfMonth = getFirstDayOfMonth(year, month);
+
+        const calendarGrid = [];
+        let dayCounter = 1;
+
+        // Generate rows for the calendar
+        for (let week = 0; week < 6; week++) {
+            const row = [];
+            // Generate cells for each day of the week
+            for (let day = 0; day < 7; day++) {
+                if (
+                    (week === 0 && day < firstDayOfMonth) || dayCounter > totalDaysInMonth) {
+                    row.push(<td key={`${week}-${day}`}></td>);
+                } else {
+                    const date = new Date(year, month, dayCounter);
+                    const isCurrentMonth = date.getMonth() === month;
+                    row.push(
+                        <td
+                            key={`${week}-${day}`}
+                            className={isCurrentMonth ? "current-month" : "other-month"}
+                            onClick={() => handleDateClick(date)}
+                        >
+                            {dayCounter}
+                        </td>
+                    );
+                    dayCounter++;
+                }
+            }
+            calendarGrid.push(<tr key={week}>{row}</tr>);
+        }
+        return calendarGrid;
+    }
+    const handleDateClick = (date) => {
+        setSelectedDate(date);
+    };
+
+    // Get current month and year
+    const currentMonth = selectedDate.getMonth();
+    const currentYear = selectedDate.getFullYear();
+
+    return (
+
+        <div className="calendar">
+            <div className="header">
+                <h1>Welcome, {localStorage.getItem('CurrentUser')}</h1>
+                <h2>
+                    <button
+                        id="lt" onClick={() =>
+                            setSelectedDate(new Date(currentYear, currentMonth - 1, 1))
+                        }>
+                        &lt;
+                    </button>
+
+                    {new Date(currentYear, currentMonth).toLocaleString("default", {
+                        month: "long"
+                    })}{" "}
+                    {currentYear}
+
+                    <button
+                        id="gt" onClick={() =>
+                            setSelectedDate(new Date(currentYear, currentMonth + 1, 1))
+                        }>
+                        &gt;
+                    </button>
+                </h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        {getDaysOfWeek().map((day) => (
+                            <th key={day}>{day}</th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody>{generateCalendarGrid(currentYear, currentMonth)}</tbody>
+            </table>
+        </div>
+    );
 }
