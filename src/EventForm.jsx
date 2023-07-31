@@ -24,6 +24,7 @@ const EventForm = ({ date, onClose }) => {
     }
 
     onClose();
+    alert("Event Added Succesfully!")
   };
 
   return (
