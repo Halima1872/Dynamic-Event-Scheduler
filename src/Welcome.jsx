@@ -11,10 +11,15 @@ export default function Welcome() {
     const [showEventsForDate, setShowEventsForDate] = useState(false);
 
     const hasEventsForDate = (date) => {
-        const eventsForDate = JSON.parse(localStorage.getItem(date)) || [];
+        const eventsForDate = JSON.parse(localStorage.getItem(date)) ;
         const currentUser = localStorage.getItem('CurrentUser')
+        if(eventsForDate){
         const userEvents = eventsForDate.filter((event) => event.User == currentUser);
         return userEvents.length > 0;
+        }else{
+            return false
+        }
+        
     };
 
     const getDaysOfWeek = () => {
@@ -88,7 +93,7 @@ export default function Welcome() {
     const currentYear = selectedDate.getFullYear();
 
     return (
-
+        
         <div className="calendar">
 
             {showConfirmationDialogue && <ConfirmationDialogue message={`Do you want to View Events or Add a New Event for ${selectedDate.toDateString()}?`}

@@ -4,7 +4,7 @@ import './EventsForDate.css'
 
 const EventsForDate = ({ date,currentUser,onClose }) => {
   // Retrieve events from local storage for the given date
-  const eventsForDate = JSON.parse(localStorage.getItem(date)) ;
+  const eventsForDate = JSON.parse(localStorage.getItem(date)) || [] ;
 
   const userEvents = eventsForDate.filter((event) => event.User == currentUser);
 
@@ -22,11 +22,12 @@ const EventsForDate = ({ date,currentUser,onClose }) => {
               Time: {event.Time}
             </div>
           ))}
-          <button className="form-element" type="button" onClick={onClose}>
-            Close
-          </button>
+          
         </div>
       )}
+      <button className="form-element" type="button" onClick={onClose}>
+            Close
+          </button>
     </div>
   );
 };
