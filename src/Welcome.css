@@ -62,3 +62,7 @@ td,th {
  
 }
 
+.selected{
+  background-color: #749cc6; 
+  color: #fff;
+}

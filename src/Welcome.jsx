@@ -32,6 +32,13 @@ export default function Welcome() {
     const getFirstDayOfMonth = (year, month) => {
         return new Date(year, month, 1).getDay();
     }
+    const isSameDay = (date1, date2) => {
+        return (
+          date1.getDate() === date2.getDate() &&
+          date1.getMonth() === date2.getMonth() &&
+          date1.getFullYear() === date2.getFullYear()
+        );
+      };
 
     const generateCalendarGrid = (year, month) => {
         const totalDaysInMonth = getDaysInMonth(year, month);
@@ -56,6 +63,9 @@ export default function Welcome() {
                     if (hasEventsForDate(date)) {
                         classNames.push('has-events');
                     }
+                    if (isSameDay(selectedDate, date)) {
+                        classNames.push('selected');
+                      }
                     row.push(
                         <td
                             key={`${week}-${day}`}
@@ -74,8 +84,11 @@ export default function Welcome() {
     }
     const handleDateClick = (date) => {
         setSelectedDate(date);
+
         console.log(date)
         setShowConfirmationDialogue(true);
+        setShowEventsForDate(false)
+        
     }
     const handleConfirmation = (confirmed) => {
         if (confirmed) {
