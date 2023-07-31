@@ -1,7 +1,21 @@
 import './Welcome.css'
 import { useState } from "react";
+import EventForm from './EventForm';
+import ConfirmationDialogue from './ConfirmationDialogue';
+import EventsForDate from './EventsForDate'
+
 export default function Welcome() {
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [showEventForm, setShowEventForm] = useState(false);
+    const [showConfirmationDialogue, setShowConfirmationDialogue] = useState(false);
+    const [showEventsForDate, setShowEventsForDate] = useState(false);
+
+    const hasEventsForDate = (date) => {
+        const eventsForDate = JSON.parse(localStorage.getItem(date)) || [];
+        const currentUser = localStorage.getItem('CurrentUser')
+        const userEvents = eventsForDate.filter((event) => event.User == currentUser);
+        return userEvents.length > 0;
+    };
 
     const getDaysOfWeek = () => {
         return ["S", "M", "T", "W", "Th", "F", "S"];
@@ -32,10 +46,15 @@ export default function Welcome() {
                 } else {
                     const date = new Date(year, month, dayCounter);
                     const isCurrentMonth = date.getMonth() === month;
+                    const classNames = [isCurrentMonth ? 'current-month' : 'other-month'];
+
+                    if (hasEventsForDate(date)) {
+                        classNames.push('has-events');
+                    }
                     row.push(
                         <td
                             key={`${week}-${day}`}
-                            className={isCurrentMonth ? "current-month" : "other-month"}
+                            className={classNames.join(' ')}
                             onClick={() => handleDateClick(date)}
                         >
                             {dayCounter}
@@ -50,7 +69,19 @@ export default function Welcome() {
     }
     const handleDateClick = (date) => {
         setSelectedDate(date);
-    };
+        console.log(date)
+        setShowConfirmationDialogue(true);
+    }
+    const handleConfirmation = (confirmed) => {
+        if (confirmed) {
+            setShowEventsForDate(true);
+            setShowEventForm(false);
+        }
+        else {
+            setShowEventForm(true);
+            setShowEventsForDate(false);
+        }
+    }
 
     // Get current month and year
     const currentMonth = selectedDate.getMonth();
@@ -59,6 +90,16 @@ export default function Welcome() {
     return (
 
         <div className="calendar">
+
+            {showConfirmationDialogue && <ConfirmationDialogue message={`Do you want to View Events or Add a New Event for ${selectedDate.toDateString()}?`}
+                onConfirm={() => handleConfirmation(true)}
+                onCancel={() => handleConfirmation(false)}
+                onClose={() => setShowConfirmationDialogue(false)} />}
+
+            {showEventForm && <EventForm date={selectedDate} onClose={() => setShowEventForm(false)} />}
+
+            {showEventsForDate && <EventsForDate date={selectedDate} currentUser={localStorage.getItem('CurrentUser')} onClose={() => setShowEventsForDate(false)} />}
+
             <div className="header">
                 <h1>Welcome, {localStorage.getItem('CurrentUser')}</h1>
                 <h2>
@@ -92,6 +133,7 @@ export default function Welcome() {
                 </thead>
                 <tbody>{generateCalendarGrid(currentYear, currentMonth)}</tbody>
             </table>
+
         </div>
     );
 }
