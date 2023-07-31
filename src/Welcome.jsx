@@ -93,17 +93,8 @@ export default function Welcome() {
     const currentYear = selectedDate.getFullYear();
 
     return (
-        
+        <div className="calendar-container">
         <div className="calendar">
-
-            {showConfirmationDialogue && <ConfirmationDialogue message={`Do you want to View Events or Add a New Event for ${selectedDate.toDateString()}?`}
-                onConfirm={() => handleConfirmation(true)}
-                onCancel={() => handleConfirmation(false)}
-                onClose={() => setShowConfirmationDialogue(false)} />}
-
-            {showEventForm && <EventForm date={selectedDate} onClose={() => setShowEventForm(false)} />}
-
-            {showEventsForDate && <EventsForDate date={selectedDate} currentUser={localStorage.getItem('CurrentUser')} onClose={() => setShowEventsForDate(false)} />}
 
             <div className="header">
                 <h1>Welcome, {localStorage.getItem('CurrentUser')}</h1>
@@ -138,6 +129,27 @@ export default function Welcome() {
                 </thead>
                 <tbody>{generateCalendarGrid(currentYear, currentMonth)}</tbody>
             </table>
+
+        </div>
+        <div className="right-sidebar">
+        {showConfirmationDialogue && 
+         <ConfirmationDialogue message={`Do you want to View Events or Add a New Event for ${selectedDate.toDateString()}?`}
+                onConfirm={() => handleConfirmation(true)}
+                onCancel={() => handleConfirmation(false)}
+                onClose={() => setShowConfirmationDialogue(false)} />
+                }
+       
+
+        {showEventForm && 
+             
+        <EventForm date={selectedDate} onClose={() => setShowEventForm(false)} />
+        }
+
+        {showEventsForDate && 
+        <EventsForDate date={selectedDate} currentUser={localStorage.getItem('CurrentUser')} onClose={() => setShowEventsForDate(false)} />
+       }
+        </div>
+
 
         </div>
     );

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 const ConfirmationDialogue = ({ message,onConfirm, onCancel,onClose }) => {
     return (
       <div className="confirmation-dialog">
-        <div className="message">{message}</div>
+        <div className="message"><strong>{message}</strong></div>
         <div className="buttons">
           <button className="form-element" onClick={onConfirm}>View Events</button>
           <button className="form-element" onClick={onCancel}>Add Event</button>

@@ -45,3 +45,20 @@ td,th {
 .has-events {
   background-color: #fb8500; /* You can adjust this color as needed */
 }
+
+.calendar-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+}
+
+
+.right-sidebar {
+  flex: 1;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+ 
+}
+
