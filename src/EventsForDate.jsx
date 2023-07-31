@@ -4,6 +4,7 @@ import './EventsForDate.css'
 
 const EventsForDate = ({ date,currentUser,onClose }) => {
   // Retrieve events from local storage for the given date
+  
   const eventsForDate = JSON.parse(localStorage.getItem(date)) || [] ;
 
   const userEvents = eventsForDate.filter((event) => event.User == currentUser);
@@ -20,6 +21,8 @@ const EventsForDate = ({ date,currentUser,onClose }) => {
               <strong>{event.EventName}</strong>: {event.EventDescription}
               <br></br>
               Time: {event.Time}
+              <br></br>
+              <button id="Delete">Delete</button>
             </div>
           ))}
           
