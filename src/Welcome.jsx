@@ -71,8 +71,6 @@ export default function Welcome() {
 
                         <button
                             id="gt" onClick={() =>
-                                //setSelectedDate(new Date(selectedYear, selectedMonth + 1, 1))
-                                //setSelectedMonth(selectedMonth + 1)
                                 {selectedMonth==11?
                                     handleMonthYearChange({month: 0, year: selectedYear+1})
                                     :handleMonthYearChange({month: selectedMonth + 1, year: selectedYear})}
