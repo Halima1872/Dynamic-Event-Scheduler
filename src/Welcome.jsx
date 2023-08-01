@@ -5,6 +5,7 @@ import ConfirmationDialogue from './ConfirmationDialogue';
 import EventsForDate from './EventsForDate'
 import Calendar from './Calendar'
 import Storage from './Storage';
+import Navbar from './Navbar';
 
 export default function Welcome() {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -35,7 +36,10 @@ export default function Welcome() {
     const currentUser = Storage.getItem('CurrentUser')
 
     return (
+        <>
+        <Navbar sticky="top" />
         <div className="calendar-container">
+            
             <div className="calendar">
 
                 <div className="header">
@@ -82,5 +86,6 @@ export default function Welcome() {
                 }
             </div>
         </div>
+        </>
     );
 }

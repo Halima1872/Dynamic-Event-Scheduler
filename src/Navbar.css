@@ -1,0 +1,43 @@
+
+.navbar {
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.7rem 2rem;
+    overflow: hidden;
+    z-index: 1;
+    width: 100%; 
+    margin: auto;
+    top: 0;
+   
+    opacity: 0.9;
+
+    position: fixed;
+    top: 0;
+    text-align: right;
+
+  }
+
+  .logout-button {
+    position: fixed;
+    top: 0px;
+    right: 20px;
+    background-color: transparent;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .logout-button:hover {
+    text-decoration: underline;
+  }
+  
+  
+  
+  
+  
+  
+  
+
+
