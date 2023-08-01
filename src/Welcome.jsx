@@ -11,14 +11,13 @@ export default function Welcome() {
     const [showConfirmationDialogue, setShowConfirmationDialogue] = useState(false);
     const [showEventsForDate, setShowEventsForDate] = useState(false);
 
-    
     const handleDateClick = (date) => {
         setSelectedDate(date);
 
         console.log(date)
         setShowConfirmationDialogue(true);
         setShowEventsForDate(false)
-        
+
     }
     const handleConfirmation = (confirmed) => {
         if (confirmed) {
@@ -37,54 +36,52 @@ export default function Welcome() {
 
     return (
         <div className="calendar-container">
-        <div className="calendar">
+            <div className="calendar">
 
-            <div className="header">
-                <h1>Welcome, {localStorage.getItem('CurrentUser')}</h1>
-                <h2>
-                    <button
-                        id="lt" onClick={() =>
-                            setSelectedDate(new Date(currentYear, currentMonth - 1, 1))
-                        }>
-                        &lt;
-                    </button>
+                <div className="header">
+                    <h1>Welcome, {localStorage.getItem('CurrentUser')}</h1>
+                    <h2>
+                        <button
+                            id="lt" onClick={() =>
+                                setSelectedDate(new Date(currentYear, currentMonth - 1, 1))
+                            }>
+                            &lt;
+                        </button>
 
-                    {new Date(currentYear, currentMonth).toLocaleString("default", {
-                        month: "long"
-                    })}{" "}
-                    {currentYear}
+                        {new Date(currentYear, currentMonth).toLocaleString("default", {
+                            month: "long"
+                        })}{" "}
+                        {currentYear}
 
-                    <button
-                        id="gt" onClick={() =>
-                            setSelectedDate(new Date(currentYear, currentMonth + 1, 1))
-                        }>
-                        &gt;
-                    </button>
-                </h2>
+                        <button
+                            id="gt" onClick={() =>
+                                setSelectedDate(new Date(currentYear, currentMonth + 1, 1))
+                            }>
+                            &gt;
+                        </button>
+                    </h2>
+                </div>
+                <Calendar selectedDate={selectedDate} currentYear={currentYear} currentMonth={currentMonth} handleDateClick={handleDateClick} />
+
             </div>
-            <Calendar selectedDate={selectedDate} currentYear={currentYear} currentMonth={currentMonth} handleDateClick={handleDateClick} />
-
-        </div>
-        <div className="right-sidebar">
-        {showConfirmationDialogue && 
-         <ConfirmationDialogue message={`Do you want to View Events or Add a New Event for ${selectedDate.toDateString()}?`}
-                onConfirm={() => handleConfirmation(true)}
-                onCancel={() => handleConfirmation(false)}
-                onClose={() => setShowConfirmationDialogue(false)} />
+            <div className="right-sidebar">
+                {showConfirmationDialogue &&
+                    <ConfirmationDialogue message={`Do you want to View Events or Add a New Event for ${selectedDate.toDateString()}?`}
+                        onConfirm={() => handleConfirmation(true)}
+                        onCancel={() => handleConfirmation(false)}
+                        onClose={() => setShowConfirmationDialogue(false)} />
                 }
-       
-
-        {showEventForm && 
-             
-        <EventForm date={selectedDate} onClose={() => setShowEventForm(false)} />
-        }
-
-        {showEventsForDate && 
-        <EventsForDate date={selectedDate} currentUser={localStorage.getItem('CurrentUser')} onClose={() => setShowEventsForDate(false)} />
-       }
-        </div>
 
 
+                {showEventForm &&
+
+                    <EventForm date={selectedDate} onClose={() => setShowEventForm(false)} />
+                }
+
+                {showEventsForDate &&
+                    <EventsForDate date={selectedDate} currentUser={localStorage.getItem('CurrentUser')} onClose={() => setShowEventsForDate(false)} />
+                }
+            </div>
         </div>
     );
 }
