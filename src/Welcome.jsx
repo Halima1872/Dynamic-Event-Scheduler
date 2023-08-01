@@ -6,12 +6,15 @@ import EventsForDate from './EventsForDate'
 import Calendar from './Calendar'
 import Storage from './Storage';
 import Navbar from './Navbar';
+import MonthYearPicker from './MonthYearPicker';
 
 export default function Welcome() {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [showEventForm, setShowEventForm] = useState(false);
     const [showConfirmationDialogue, setShowConfirmationDialogue] = useState(false);
     const [showEventsForDate, setShowEventsForDate] = useState(false);
+    const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
     const handleDateClick = (date) => {
         setSelectedDate(date);
@@ -29,10 +32,13 @@ export default function Welcome() {
             setShowEventsForDate(false);
         }
     }
+    const handleMonthYearChange = ({ month, year }) => {
+        setSelectedMonth(month);
+        setSelectedYear(year);
+        // Update the selectedDate to the first day of the selected month
+        setSelectedDate(new Date(year, month, 1));
+      };
 
-    // Get current month and year
-    const currentMonth = selectedDate.getMonth();
-    const currentYear = selectedDate.getFullYear();
     const currentUser = Storage.getItem('CurrentUser')
 
     return (
@@ -44,28 +50,38 @@ export default function Welcome() {
 
                 <div className="header">
                     <h1>Welcome, {currentUser}</h1>
+                    <MonthYearPicker selectedMonth={selectedMonth}
+                    selectedYear={selectedYear}
+                    onSelect={handleMonthYearChange} />
+                    
                     <h2>
                         <button
                             id="lt" onClick={() =>
-                                setSelectedDate(new Date(currentYear, currentMonth - 1, 1))
+                                {selectedMonth==0?
+                                    handleMonthYearChange({month: 11, year: selectedYear-1})
+                                    :handleMonthYearChange({month: selectedMonth - 1, year: selectedYear})}  
                             }>
                             &lt;
                         </button>
 
-                        {new Date(currentYear, currentMonth).toLocaleString("default", {
+                        {new Date(selectedYear, selectedMonth).toLocaleString("default", {
                             month: "long"
                         })}{" "}
-                        {currentYear}
+                        {selectedYear}
 
                         <button
                             id="gt" onClick={() =>
-                                setSelectedDate(new Date(currentYear, currentMonth + 1, 1))
+                                //setSelectedDate(new Date(selectedYear, selectedMonth + 1, 1))
+                                //setSelectedMonth(selectedMonth + 1)
+                                {selectedMonth==11?
+                                    handleMonthYearChange({month: 0, year: selectedYear+1})
+                                    :handleMonthYearChange({month: selectedMonth + 1, year: selectedYear})}
                             }>
                             &gt;
                         </button>
                     </h2>
                 </div>
-                <Calendar selectedDate={selectedDate} currentYear={currentYear} currentMonth={currentMonth} handleDateClick={handleDateClick} />
+                <Calendar selectedDate={selectedDate} currentYear={selectedYear} currentMonth={selectedMonth} handleDateClick={handleDateClick} />
 
             </div>
             <div className="right-sidebar">

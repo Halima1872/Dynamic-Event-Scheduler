@@ -1,0 +1,34 @@
+
+.monthyear #month{
+    width: 40%;
+    float: left;
+    margin-right: 10px;
+    height: 40px;
+    font-size: larger;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    color: #888;
+    
+}
+.monthyear #year{
+    width: 30%;
+    float: left;
+    height: 37px;
+    font-size: larger;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    color: #888;
+}
+
+#go{
+    font-size: larger;
+    height: 40px;
+    width: 15%;
+    padding: 0px;
+
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #888;
+    
+  }
+  
