@@ -2,25 +2,25 @@
 
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import Storage from './Storage';
 
 const EventForm = ({ date, onClose }) => {
   const[items, setItems] = useState([])
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    const dateEvent = JSON.parse(localStorage.getItem(date)) || [];
+    const dateEvent = Storage.getItems(date);
     const newItem = {
-        User: localStorage.getItem('CurrentUser'),
+        User: Storage.getItem('CurrentUser'),
         EventName: e.target[0].value,
         EventDescription: e.target[1].value,
         Time: e.target[2].value,
       };
       setItems([...items, newItem]);
       if (dateEvent.length === 0) {
-        localStorage.setItem(date, JSON.stringify([...items, newItem]));
+        Storage.setItems(date, [...items, newItem]);
     }else {
-        localStorage.setItem(date, JSON.stringify([...dateEvent, ...items,newItem]));
+        Storage.setItems(date, [...dateEvent, ...items,newItem]);
     }
 
     onClose();

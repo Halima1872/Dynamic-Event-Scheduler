@@ -4,6 +4,7 @@ import EventForm from './EventForm';
 import ConfirmationDialogue from './ConfirmationDialogue';
 import EventsForDate from './EventsForDate'
 import Calendar from './Calendar'
+import Storage from './Storage';
 
 export default function Welcome() {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -13,11 +14,9 @@ export default function Welcome() {
 
     const handleDateClick = (date) => {
         setSelectedDate(date);
-
         console.log(date)
         setShowConfirmationDialogue(true);
         setShowEventsForDate(false)
-
     }
     const handleConfirmation = (confirmed) => {
         if (confirmed) {
@@ -33,13 +32,14 @@ export default function Welcome() {
     // Get current month and year
     const currentMonth = selectedDate.getMonth();
     const currentYear = selectedDate.getFullYear();
+    const currentUser = Storage.getItem('CurrentUser')
 
     return (
         <div className="calendar-container">
             <div className="calendar">
 
                 <div className="header">
-                    <h1>Welcome, {localStorage.getItem('CurrentUser')}</h1>
+                    <h1>Welcome, {currentUser}</h1>
                     <h2>
                         <button
                             id="lt" onClick={() =>
@@ -72,14 +72,13 @@ export default function Welcome() {
                         onClose={() => setShowConfirmationDialogue(false)} />
                 }
 
-
                 {showEventForm &&
 
                     <EventForm date={selectedDate} onClose={() => setShowEventForm(false)} />
                 }
 
                 {showEventsForDate &&
-                    <EventsForDate date={selectedDate} currentUser={localStorage.getItem('CurrentUser')} onClose={() => setShowEventsForDate(false)} />
+                    <EventsForDate date={selectedDate} currentUser={currentUser} onClose={() => setShowEventsForDate(false)} />
                 }
             </div>
         </div>

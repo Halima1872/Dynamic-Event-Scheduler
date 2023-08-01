@@ -1,18 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 import './Signup.css'
+import Storage from './Storage';
 export default function Login() {
     const navigateTo = useNavigate();
     const handleLogin = (e) => {
         e.preventDefault()
-        const data = JSON.parse(localStorage.getItem('items')) || [];
+        const data = Storage.getItems('items');
         const name = e.target[0].value;
         const password = e.target[1].value;
         const user = data.find((item) => item.name === name && item.password === password);
         if (user) {
             alert('Login successful');
             navigateTo('/Welcome');
-            localStorage.setItem('CurrentUser', name);
-            localStorage.setItem('isLoggedIn', true);
+            Storage.setItem('CurrentUser', name);
+            Storage.setItem('isLoggedIn', true);
         }
         else {
             alert('Invalid Credentials');

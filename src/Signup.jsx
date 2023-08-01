@@ -1,4 +1,4 @@
-
+import Storage from "./Storage";
 import { useState } from "react"
 import { useNavigate } from 'react-router-dom';
 import './Signup.css'
@@ -8,8 +8,7 @@ export default function Signup() {
     
         const handleSubmit = (e) => {
             e.preventDefault()
-
-            const data = JSON.parse(localStorage.getItem('items')) || [];
+            const data = Storage.getItems('items');
             const name = e.target[0].value;
             const user = data.find((item) => item.name === name);
             if (user) {
@@ -26,11 +25,10 @@ export default function Signup() {
               e.target[1].value = '';
               e.target[2].value = '';
 
-            //const data = JSON.parse(localStorage.getItem('items')) || [];
             if (data.length === 0) {
-                localStorage.setItem('items', JSON.stringify([...items, newItem]));
+                Storage.setItems('items', [...items, newItem]);
             }else {
-                localStorage.setItem('items', JSON.stringify([...data, ...items,newItem]));
+                Storage.setItems('items', [...data, ...items,newItem]);
             }
             setTimeout(() => {
                 navigateTo('/Login');
